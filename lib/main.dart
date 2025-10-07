@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'models/BookMark.dart';
+
+final List<BookMark> bookmarks = [
+  BookMark('Google', 'https://www.google.com/'),
+  BookMark('Yahoo', 'https://yahoo.co.jp/'),
+];
 
 void main() {
   runApp(const MyApp());
