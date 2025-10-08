@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'models/bookmark.dart';
+import 'package:browser_app/models/bookmark.dart';
+import 'package:browser_app/widgets/content.dart';
+import 'package:browser_app/widgets/webviewscreen.dart';
 
 final List<BookMark> bookmarks = [
   BookMark('Google', 'https://www.google.com/'),
@@ -20,51 +22,30 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'ブックマーク一覧'),
+      home: const WebViewScreen(initialUrl: 'https://yahoo.co.jp/'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Center(child: Text(widget.title)),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+      appBar: AppBar(title: Text(title)),
+      body: ListView.builder(
+        itemCount: bookmarks.length,
+        itemBuilder: (BuildContext context, int index) {
+          final BookMark currentBookMark = bookmarks[index];
+          return Content(bookmark: currentBookMark);
+        },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'ブックマークの追加',
+        //TODO：ブックマーク登録のダイアログを開く実装
+        onPressed: () => debugPrint("ボタンのクリック"),
         child: const Icon(Icons.add),
       ),
     );
