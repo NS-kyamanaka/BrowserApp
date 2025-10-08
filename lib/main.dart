@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:browser_app/models/bookmark.dart';
 import 'package:browser_app/widgets/content.dart';
-import 'package:browser_app/widgets/webviewscreen.dart';
 
 final List<BookMark> bookmarks = [
   BookMark('Google', 'https://www.google.com/'),
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const WebViewScreen(initialUrl: 'https://yahoo.co.jp/'),
+      home: const MyHomePage(title: 'ブックマーク一覧'),
     );
   }
 }
@@ -35,7 +34,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(centerTitle: true, title: Text(title)),
       body: ListView.builder(
         itemCount: bookmarks.length,
         itemBuilder: (BuildContext context, int index) {
