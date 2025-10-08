@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/bookmark.dart';
+import 'package:browser_app/widgets/webviewscreen.dart';
 
 class Content extends StatelessWidget {
   final BookMark bookmark;
@@ -7,6 +8,16 @@ class Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [Text(bookmark.name), Text(bookmark.url)]);
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WebViewScreen(initialUrl: bookmark.url),
+          ),
+        );
+      },
+      child: Column(children: [Text(bookmark.name), Text(bookmark.url)]),
+    );
   }
 }
