@@ -1,3 +1,4 @@
+import 'package:browser_app/widgets/registerdialog.dart';
 import 'package:flutter/material.dart';
 import 'package:browser_app/models/bookmark.dart';
 import 'package:browser_app/widgets/content.dart';
@@ -31,6 +32,16 @@ class MyHomePage extends StatelessWidget {
 
   final String title;
 
+  void _showRegistDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return RegistDialog();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +54,7 @@ class MyHomePage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        //TODO：ブックマーク登録のダイアログを開く実装
-        onPressed: () => debugPrint("ボタンのクリック"),
+        onPressed: () => _showRegistDialog(context),
         child: const Icon(Icons.add),
       ),
     );
