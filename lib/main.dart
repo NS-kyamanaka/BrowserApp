@@ -60,13 +60,24 @@ class _TopPageState extends State<TopPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text(widget.title)),
-      body: ListView.builder(
-        itemCount: _list.length,
-        itemBuilder: (BuildContext context, int index) {
-          final BookMark currentBookMark = _list[index];
-          return Content(bookmark: currentBookMark);
-        },
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          widget.title,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          border: Border(top: BorderSide(color: Colors.grey)),
+        ),
+        child: ListView.builder(
+          itemCount: _list.length,
+          itemBuilder: (context, index) {
+            final BookMark currentBookMark = _list[index];
+            return Content(bookmark: currentBookMark);
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showRegistDialog(context),
@@ -75,39 +86,3 @@ class _TopPageState extends State<TopPage> {
     );
   }
 }
-
-//
-
-// class MyHomePage extends StatelessWidget {
-//   const MyHomePage({super.key, required this.title});
-
-//   final String title;
-
-//   void _showRegistDialog(BuildContext context) {
-//     showDialog(
-//       context: context,
-//       barrierDismissible: true,
-//       builder: (BuildContext context) {
-//         return RegistDialog(onRegistApp: onRegister);
-//       },
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(centerTitle: true, title: Text(title)),
-//       body: ListView.builder(
-//         itemCount: bookmarks.length,
-//         itemBuilder: (BuildContext context, int index) {
-//           final BookMark currentBookMark = bookmarks[index];
-//           return Content(bookmark: currentBookMark);
-//         },
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () => _showRegistDialog(context),
-//         child: const Icon(Icons.add),
-//       ),
-//     );
-//   }
-// }

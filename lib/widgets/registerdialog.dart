@@ -40,9 +40,31 @@ class _RegistDialogState extends State<RegistDialog> {
     return AlertDialog(
       title: Text('ブックマーク登録'),
       content: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          TextField(controller: _nameController),
-          TextField(controller: _urlController),
+          TextField(
+            controller: _nameController,
+            keyboardType: TextInputType.text,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              labelText: '登録名',
+              hintText: '登録名を入力してください',
+            ),
+          ),
+          SizedBox(height: 10.0),
+          TextField(
+            controller: _urlController,
+            keyboardType: TextInputType.text,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              labelText: 'URL',
+              hintText: 'URLを入力してください',
+            ),
+          ),
         ],
       ),
       actions: actions,
