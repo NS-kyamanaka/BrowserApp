@@ -17,7 +17,24 @@ class Content extends StatelessWidget {
           ),
         );
       },
-      child: Column(children: [Text(bookmark.name), Text(bookmark.url)]),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.grey)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                bookmark.name,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+              ),
+              Text(bookmark.url),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
