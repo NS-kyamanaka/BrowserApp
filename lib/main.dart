@@ -3,11 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:browser_app/models/bookmark.dart';
 import 'package:browser_app/widgets/content.dart';
 
-// final List<BookMark> bookmarks = [
-//   BookMark('Google', 'https://www.google.com/'),
-//   BookMark('Yahoo', 'https://yahoo.co.jp/'),
-// ];
-
 void main() {
   runApp(const MyApp());
 }
