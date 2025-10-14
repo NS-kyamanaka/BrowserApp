@@ -1,7 +1,7 @@
-import 'package:browser_app/widgets/registerdialog.dart';
+import 'package:browser_app/widgets/register_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:browser_app/models/bookmark.dart';
-import 'package:browser_app/widgets/content.dart';
+import 'package:browser_app/widgets/bookmark_tile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Broser App',
+      title: 'Browser App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
@@ -31,14 +31,14 @@ class TopPage extends StatefulWidget {
 }
 
 class _TopPageState extends State<TopPage> {
-  final List<BookMark> _list = [
-    BookMark('Google', 'https://www.google.com/'),
-    BookMark('Yahoo', 'https://yahoo.co.jp/'),
+  final List<Bookmark> _list = [
+    Bookmark('Google', 'https://www.google.com/'),
+    Bookmark('Yahoo', 'https://yahoo.co.jp/'),
   ];
 
-  void _registBookMark(BookMark bookMark) {
+  void _registBookMark(Bookmark bookmark) {
     setState(() {
-      _list.add(bookMark);
+      _list.add(bookmark);
     });
   }
 
@@ -69,8 +69,8 @@ class _TopPageState extends State<TopPage> {
         child: ListView.builder(
           itemCount: _list.length,
           itemBuilder: (context, index) {
-            final BookMark currentBookMark = _list[index];
-            return Content(bookmark: currentBookMark);
+            final Bookmark currentBookmark = _list[index];
+            return Content(bookmark: currentBookmark);
           },
         ),
       ),

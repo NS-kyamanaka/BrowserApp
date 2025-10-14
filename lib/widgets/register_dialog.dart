@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:browser_app/models/bookmark.dart';
 
 class RegistDialog extends StatefulWidget {
-  final void Function(BookMark bookMark) onRegistApp;
+  final void Function(Bookmark bookmark) onRegistApp;
   const RegistDialog({super.key, required this.onRegistApp});
 
   @override
@@ -26,7 +26,7 @@ class _RegistDialogState extends State<RegistDialog> {
       TextButton(onPressed: Navigator.of(context).pop, child: Text('キャンセル')),
       TextButton(
         onPressed: () {
-          final newBookMark = BookMark(
+          final newBookMark = Bookmark(
             _nameController.text,
             _urlController.text,
           );
