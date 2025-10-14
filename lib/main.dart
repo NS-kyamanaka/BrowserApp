@@ -1,6 +1,6 @@
 import 'package:browser_app/widgets/register_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:browser_app/models/bookmark.dart';
+import 'package:browser_app/data/models/bookmark.dart';
 import 'package:browser_app/widgets/bookmark_tile.dart';
 
 void main() {

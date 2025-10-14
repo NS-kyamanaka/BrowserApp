@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:browser_app/models/bookmark.dart';
+import 'package:browser_app/data/models/bookmark.dart';
 
 class RegistDialog extends StatefulWidget {
   final void Function(Bookmark bookmark) onRegistApp;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:browser_app/models/bookmark.dart';
+import 'package:browser_app/data/models/bookmark.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
