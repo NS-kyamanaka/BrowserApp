@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/bookmark.dart';
+import '../data/models/bookmark.dart';
 import 'package:browser_app/screens/web_view_screen.dart';
 
 class Content extends StatelessWidget {
