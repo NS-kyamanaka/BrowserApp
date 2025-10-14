@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:browser_app/data/models/bookmark.dart';
 
 class RegistDialog extends StatefulWidget {
-  final void Function(Bookmark bookmark) onRegistApp;
+  final Future<void> Function(Bookmark bookmark) onRegistApp;
   const RegistDialog({super.key, required this.onRegistApp});
 
   @override
@@ -23,22 +23,32 @@ class _RegistDialogState extends State<RegistDialog> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> actions = [
-      TextButton(onPressed: Navigator.of(context).pop, child: Text('キャンセル')),
       TextButton(
-        onPressed: () {
-          final newBookMark = Bookmark(
-            _nameController.text,
-            _urlController.text,
+        onPressed: Navigator.of(context).pop,
+        child: const Text('キャンセル'),
+      ),
+      TextButton(
+        onPressed: () async {
+          if (_nameController.text.isEmpty || _urlController.text.isEmpty) {
+            //TODO バリデーションチェック
+            return;
+          }
+          final newBookmark = Bookmark(
+            id : null,
+            name: _nameController.text,
+            url: _urlController.text,
+            date: DateTime.now(),
           );
-          widget.onRegistApp(newBookMark);
+          //await widget.onRegistApp(newBookMark);
+          await widget.onRegistApp(newBookmark);
           Navigator.of(context).pop();
         },
-        child: Text('登録'),
+        child: const Text('登録'),
       ),
     ];
 
     return AlertDialog(
-      title: Text('ブックマーク登録'),
+      title: const Text('ブックマーク登録'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -53,10 +63,10 @@ class _RegistDialogState extends State<RegistDialog> {
               hintText: '登録名を入力してください',
             ),
           ),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           TextField(
             controller: _urlController,
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.url,
             decoration: const InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
