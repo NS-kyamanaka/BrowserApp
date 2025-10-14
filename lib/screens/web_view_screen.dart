@@ -1,5 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:browser_app/models/bookmark.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+class WebViewScreen extends StatefulWidget {
+  final Bookmark bookmark;
+  const WebViewScreen({super.key, required this.bookmark});
+
+  @override
+  State<WebViewScreen> createState() => _WebViewScreenState();
+}
+
+class _WebViewScreenState extends State<WebViewScreen> {
+  late final WebViewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse(widget.bookmark.url));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.bookmark.name)),
+      body: WebViewWidget(controller: _controller),
+      bottomNavigationBar: BottomBar(controller: _controller),
+    );
+  }
+}
 
 class BottomBar extends StatelessWidget {
   final WebViewController controller;

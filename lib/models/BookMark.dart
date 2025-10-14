@@ -1,6 +1,6 @@
-class BookMark {
+class Bookmark {
   final String name;
   final String url;
 
-  BookMark(this.name, this.url);
+  Bookmark(this.name, this.url);
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../models/bookmark.dart';
-import 'package:browser_app/widgets/webviewscreen.dart';
+import 'package:browser_app/screens/web_view_screen.dart';
 
 class Content extends StatelessWidget {
-  final BookMark bookmark;
+  final Bookmark bookmark;
   const Content({super.key, required this.bookmark});
 
   @override
@@ -13,7 +13,7 @@ class Content extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => WebViewScreen(initialUrl: bookmark.url),
+            builder: (context) => WebViewScreen(bookmark: bookmark),
           ),
         );
       },
