@@ -39,7 +39,7 @@ class BookmarkListScreen extends ConsumerWidget {
           itemCount: bookmarks.length,
           itemBuilder: (context, index) {
             final Bookmark currentBookmark = bookmarks[index];
-            return Content(bookmark: currentBookmark);
+            return BookmarkTile(bookmark: currentBookmark);
           },
         ),
       ),

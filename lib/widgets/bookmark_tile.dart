@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../data/models/bookmark.dart';
 import 'package:browser_app/screens/web_view_screen.dart';
 
-class Content extends StatelessWidget {
+class BookmarkTile extends StatelessWidget {
   final Bookmark bookmark;
-  const Content({super.key, required this.bookmark});
+  const BookmarkTile({super.key, required this.bookmark});
 
   @override
   Widget build(BuildContext context) {
