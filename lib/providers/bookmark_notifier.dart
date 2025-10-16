@@ -39,3 +39,23 @@ final bookmarkListProvider =
       final repository = ref.watch(bookmarkRepositoryProvider);
       return BookmarkNotifier(repository);
     });
+
+final searchQueryProvider = StateProvider<String>((ref) => '');
+
+final filteredBookmarkListProvider = Provider<List<Bookmark>>((ref) {
+  final allBookmarks = ref.watch(bookmarkListProvider);
+  final query = ref.watch(searchQueryProvider).toLowerCase();
+
+  if (query.isEmpty) {
+
+    return allBookmarks;
+  } else {
+    
+    return allBookmarks.where((bookmark) {
+      final name = bookmark.name.toLowerCase();
+      final url = bookmark.url.toLowerCase();
+
+      return name.contains(query) || url.contains(query);
+    }).toList();
+  }
+});
