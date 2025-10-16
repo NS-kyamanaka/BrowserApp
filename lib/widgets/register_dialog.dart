@@ -39,7 +39,6 @@ class _RegistDialogState extends State<RegistDialog> {
             url: _urlController.text,
             date: DateTime.now(),
           );
-          //await widget.onRegistApp(newBookMark);
           await widget.onRegistApp(newBookmark);
           Navigator.of(context).pop();
         },
