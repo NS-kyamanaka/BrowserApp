@@ -11,6 +11,7 @@ class SearchInputField extends ConsumerStatefulWidget {
 
 class _SearchInputFieldState extends ConsumerState<SearchInputField> {
   late final TextEditingController _controller;
+  late final FocusNode _focusNode;
 
   @override
   void initState() {
@@ -18,6 +19,7 @@ class _SearchInputFieldState extends ConsumerState<SearchInputField> {
     final initialQuery = ref.read(searchQueryProvider);
     _controller = TextEditingController(text: initialQuery);
     _controller.addListener(_onControllerChanged);
+    _focusNode = FocusNode();
   }
 
   void _onControllerChanged() {
@@ -28,6 +30,7 @@ class _SearchInputFieldState extends ConsumerState<SearchInputField> {
   void dispose() {
     _controller.removeListener(_onControllerChanged);
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -39,6 +42,7 @@ class _SearchInputFieldState extends ConsumerState<SearchInputField> {
       padding: const EdgeInsets.all(8.0),
       child: TextField(
         controller: _controller,
+        focusNode: _focusNode,
         decoration: InputDecoration(
           hintText: '名前またはURLで検索',
           prefixIcon: const Icon(Icons.search),
