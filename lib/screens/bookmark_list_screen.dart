@@ -18,7 +18,6 @@ class BookmarkListScreen extends ConsumerWidget {
         return RegistDialog(
           onRegistApp: (Bookmark bookmark) async {
             await notifier.addBookmark(bookmark);
-            //Navigator.of(context).pop();
           },
         );
       },
@@ -39,7 +38,23 @@ class BookmarkListScreen extends ConsumerWidget {
           itemCount: bookmarks.length,
           itemBuilder: (context, index) {
             final Bookmark currentBookmark = bookmarks[index];
-            return BookmarkTile(bookmark: currentBookmark);
+
+            return Dismissible(
+              key: ValueKey(currentBookmark.id),
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) {
+                ref.read(bookmarkListProvider.notifier).removeBookmark(currentBookmark.id!);
+              },
+              background: Container(
+                padding: EdgeInsets.only(
+                  right: 10,
+                ),
+                color: Colors.red,
+                alignment: AlignmentDirectional.centerEnd,
+                child: Icon(Icons.delete, color: Colors.white),
+              ),
+              child: BookmarkTile(bookmark: currentBookmark),
+            );
           },
         ),
       ),

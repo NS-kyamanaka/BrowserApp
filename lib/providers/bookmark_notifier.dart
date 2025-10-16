@@ -19,12 +19,18 @@ class BookmarkNotifier extends StateNotifier<List<Bookmark>> {
   Future<void> addBookmark(Bookmark bookmark) async {
     final newId = await _repository.insertBookmark(bookmark);
     final newBookmark = Bookmark(
-      id : newId,
-      name : bookmark.name,
+      id: newId,
+      name: bookmark.name,
       url: bookmark.url,
       date: bookmark.date,
     );
     state = [...state, newBookmark];
+  }
+
+  Future<void> removeBookmark(int id) async {
+    await _repository.deleteBookmark(id);
+
+    state = state.where((bookmark) => bookmark.id != id).toList();
   }
 }
 

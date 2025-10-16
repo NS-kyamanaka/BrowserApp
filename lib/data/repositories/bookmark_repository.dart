@@ -26,6 +26,15 @@ class BookmarkRepository {
     );
   }
 
+  //データの取得(SELECT)
+  Future<List<Bookmark>> getBookmarks() async {
+    final List<Map<String, dynamic>> maps = await _database.query(_tableName);
+
+    return List.generate(maps.length, (i) {
+      return Bookmark.fromMap(maps[i]);
+    });
+  }
+
   //データの挿入
   Future<int> insertBookmark(Bookmark bookmark) async {
     return await _database.insert(
@@ -35,12 +44,13 @@ class BookmarkRepository {
     );
   }
 
-  //データの取得(SELECT)
-  Future<List<Bookmark>> getBookmarks() async {
-    final List<Map<String, dynamic>> maps = await _database.query(_tableName);
-
-    return List.generate(maps.length, (i) {
-      return Bookmark.fromMap(maps[i]);
-    });
+  //データの削除
+  Future<int> deleteBookmark(int id) async {
+    return await _database.delete(
+      _tableName,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
+  
 }
