@@ -11,25 +11,12 @@ class Bookmark {
     required this.date,
   });
 
-  factory Bookmark.create({
-    required String name,
-    required String url,
-  }) {
-    return Bookmark(
-      id: null, 
-      name: name, 
-      url: url, 
-      date: DateTime.now(),
-      );
+  factory Bookmark.create({required String name, required String url}) {
+    return Bookmark(id: null, name: name, url: url, date: DateTime.now());
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id, 
-      'name': name, 
-      'url': url, 
-      'date': date.toIso8601String(),
-      };
+    return {'id': id, 'name': name, 'url': url, 'date': date.toIso8601String()};
   }
 
   factory Bookmark.fromMap(Map<String, dynamic> map) {
