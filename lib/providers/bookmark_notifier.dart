@@ -47,10 +47,8 @@ final filteredBookmarkListProvider = Provider<List<Bookmark>>((ref) {
   final query = ref.watch(searchQueryProvider).toLowerCase();
 
   if (query.isEmpty) {
-
     return allBookmarks;
   } else {
-    
     return allBookmarks.where((bookmark) {
       final name = bookmark.name.toLowerCase();
       final url = bookmark.url.toLowerCase();

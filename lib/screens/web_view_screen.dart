@@ -32,7 +32,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         ),
       )
       ..loadRequest(Uri.parse(widget.bookmark.url));
-      _currentUrl = widget.bookmark.url;
+    _currentUrl = widget.bookmark.url;
   }
 
   @override
