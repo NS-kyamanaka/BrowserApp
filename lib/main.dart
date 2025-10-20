@@ -17,7 +17,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       title: 'Browser App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
       home: const BookmarkListScreen(),
     );
