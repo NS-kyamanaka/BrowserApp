@@ -2,28 +2,12 @@ import 'package:browser_app/providers/bookmark_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:browser_app/widgets/bookmark_tile.dart';
-import 'package:browser_app/widgets/register_dialog.dart';
 import 'package:browser_app/data/models/bookmark.dart';
 import 'package:browser_app/widgets/search_input_field.dart';
+import 'package:browser_app/utils/dialog_utils.dart';
 
 class BookmarkListScreen extends ConsumerWidget {
   const BookmarkListScreen({super.key});
-
-  void _showRegistDialog(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(bookmarkListProvider.notifier);
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return RegistDialog(
-          onRegistApp: (Bookmark bookmark) async {
-            await notifier.addBookmark(bookmark);
-          },
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -69,7 +53,7 @@ class BookmarkListScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showRegistDialog(context, ref),
+        onPressed: () => showRegistDialog(context, ref),
         child: const Icon(Icons.add),
       ),
     );

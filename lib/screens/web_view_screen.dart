@@ -1,5 +1,7 @@
+import 'package:browser_app/utils/dialog_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:browser_app/data/models/bookmark.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
@@ -25,7 +27,25 @@ class _WebViewScreenState extends State<WebViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.bookmark.name)),
+      appBar: AppBar(
+        title: Text(widget.bookmark.name),
+        actions: [
+          // TextButton(
+          //   child: const Text('ブックマークに追加'),
+          //   onPressed: ()=>{},
+          // ),
+          Consumer(
+            builder: (context, ref, child) {
+              return TextButton(
+                onPressed: () {
+                  showRegistDialog(context, ref);
+                },
+                child: const Text('ブックマークに追加'),
+              );
+            },
+          ),
+        ],
+      ),
       body: WebViewWidget(controller: _controller),
       bottomNavigationBar: BottomBar(controller: _controller),
     );
