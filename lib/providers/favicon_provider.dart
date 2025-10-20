@@ -1,9 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final faviconUrlProvider = FutureProvider.family<String?, String>((ref, url) async {
+final faviconUrlProvider = FutureProvider.family<String?, String>((
+  ref,
+  url,
+) async {
   final uri = Uri.tryParse(url);
-  
-  if(uri == null || !uri.hasAbsolutePath){
+
+  if (uri == null || !uri.hasAbsolutePath) {
     return null;
   }
 
