@@ -3,15 +3,26 @@ import 'package:browser_app/data/models/bookmark.dart';
 
 class RegistDialog extends StatefulWidget {
   final Future<void> Function(Bookmark bookmark) onRegistApp;
-  const RegistDialog({super.key, required this.onRegistApp});
+  final String? initialUrl;
+
+  const RegistDialog({super.key, required this.onRegistApp, this.initialUrl});
 
   @override
   State<RegistDialog> createState() => _RegistDialogState();
 }
 
 class _RegistDialogState extends State<RegistDialog> {
+  final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _urlController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialUrl != null && widget.initialUrl!.isNotEmpty) {
+      _urlController.text = widget.initialUrl!;
+    }
+  }
 
   @override
   void dispose() {
@@ -19,8 +30,6 @@ class _RegistDialogState extends State<RegistDialog> {
     _urlController.dispose();
     super.dispose();
   }
-
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +101,7 @@ class _RegistDialogState extends State<RegistDialog> {
 
                 final uri = Uri.tryParse(value);
 
-                if (uri == null ||!uri.hasScheme || uri.host.isEmpty) {
+                if (uri == null || !uri.hasScheme || uri.host.isEmpty) {
                   return '有効なURL形式ではありません。';
                 }
 

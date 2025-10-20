@@ -1,5 +1,7 @@
+import 'package:browser_app/utils/dialog_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:browser_app/data/models/bookmark.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
@@ -12,6 +14,7 @@ class WebViewScreen extends StatefulWidget {
 
 class _WebViewScreenState extends State<WebViewScreen> {
   late final WebViewController _controller;
+  String _currentUrl = '';
 
   @override
   void initState() {
@@ -19,13 +22,37 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (String url) {
+            setState(() {
+              _currentUrl = url;
+            });
+          },
+        ),
+      )
       ..loadRequest(Uri.parse(widget.bookmark.url));
+      _currentUrl = widget.bookmark.url;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.bookmark.name)),
+      appBar: AppBar(
+        title: Text(widget.bookmark.name),
+        actions: [
+          Consumer(
+            builder: (context, ref, child) {
+              return TextButton(
+                onPressed: () {
+                  showRegistDialog(context, ref, initialUrl: _currentUrl);
+                },
+                child: const Text('ブックマークに追加'),
+              );
+            },
+          ),
+        ],
+      ),
       body: WebViewWidget(controller: _controller),
       bottomNavigationBar: BottomBar(controller: _controller),
     );
