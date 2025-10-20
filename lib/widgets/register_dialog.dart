@@ -20,6 +20,8 @@ class _RegistDialogState extends State<RegistDialog> {
     super.dispose();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> actions = [
@@ -29,18 +31,19 @@ class _RegistDialogState extends State<RegistDialog> {
       ),
       TextButton(
         onPressed: () async {
-          if (_nameController.text.isEmpty || _urlController.text.isEmpty) {
-            //TODO バリデーションチェック
+          if (!_formKey.currentState!.validate()) {
             return;
           }
           final newBookmark = Bookmark(
-            id : null,
+            id: null,
             name: _nameController.text,
             url: _urlController.text,
             date: DateTime.now(),
           );
           await widget.onRegistApp(newBookmark);
-          Navigator.of(context).pop();
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
         },
         child: const Text('登録'),
       ),
@@ -48,33 +51,59 @@ class _RegistDialogState extends State<RegistDialog> {
 
     return AlertDialog(
       title: const Text('ブックマーク登録'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: _nameController,
-            keyboardType: TextInputType.text,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              controller: _nameController,
+              keyboardType: TextInputType.text,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                labelText: '登録名',
+                hintText: '登録名を入力してください',
+                errorMaxLines: 2,
               ),
-              labelText: '登録名',
-              hintText: '登録名を入力してください',
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return '登録名は必須項目です。';
+                }
+                return null;
+              },
             ),
-          ),
-          const SizedBox(height: 10.0),
-          TextField(
-            controller: _urlController,
-            keyboardType: TextInputType.url,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            const SizedBox(height: 10.0),
+            TextFormField(
+              controller: _urlController,
+              keyboardType: TextInputType.url,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                labelText: 'URL',
+                hintText: 'URLを入力してください',
               ),
-              labelText: 'URL',
-              hintText: 'URLを入力してください',
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'URLは必須項目です';
+                }
+
+                final uri = Uri.tryParse(value);
+
+                if (uri == null ||!uri.hasScheme || uri.host.isEmpty) {
+                  return '有効なURL形式ではありません。';
+                }
+
+                if (uri.scheme.toLowerCase() != 'https') {
+                  return 'URLの入力を確認してください。';
+                }
+                return null;
+              },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       actions: actions,
     );
