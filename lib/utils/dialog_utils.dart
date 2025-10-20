@@ -4,7 +4,7 @@ import '../data/models/bookmark.dart';
 import '../providers/bookmark_notifier.dart';
 import '../widgets/register_dialog.dart';
 
-void showRegistDialog(BuildContext context, WidgetRef ref) {
+void showRegistDialog(BuildContext context, WidgetRef ref,{String? initialUrl}) {
     final notifier = ref.read(bookmarkListProvider.notifier);
 
     showDialog(
@@ -12,6 +12,7 @@ void showRegistDialog(BuildContext context, WidgetRef ref) {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return RegistDialog(
+          initialUrl: initialUrl,
           onRegistApp: (Bookmark bookmark) async {
             await notifier.addBookmark(bookmark);
           },

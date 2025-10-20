@@ -14,6 +14,7 @@ class WebViewScreen extends StatefulWidget {
 
 class _WebViewScreenState extends State<WebViewScreen> {
   late final WebViewController _controller;
+  String _currentUrl = '';
 
   @override
   void initState() {
@@ -21,7 +22,17 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (String url) {
+            setState(() {
+              _currentUrl = url;
+            });
+          },
+        ),
+      )
       ..loadRequest(Uri.parse(widget.bookmark.url));
+      _currentUrl = widget.bookmark.url;
   }
 
   @override
@@ -30,15 +41,11 @@ class _WebViewScreenState extends State<WebViewScreen> {
       appBar: AppBar(
         title: Text(widget.bookmark.name),
         actions: [
-          // TextButton(
-          //   child: const Text('ブックマークに追加'),
-          //   onPressed: ()=>{},
-          // ),
           Consumer(
             builder: (context, ref, child) {
               return TextButton(
                 onPressed: () {
-                  showRegistDialog(context, ref);
+                  showRegistDialog(context, ref, initialUrl: _currentUrl);
                 },
                 child: const Text('ブックマークに追加'),
               );
