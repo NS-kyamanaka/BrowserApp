@@ -27,7 +27,11 @@ class BookmarkTile extends StatelessWidget {
           bookmark.name,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
         ),
-        subtitle: Text(bookmark.url),
+        subtitle: Text(
+          bookmark.url,
+          maxLines: 2,
+          overflow:TextOverflow.ellipsis,
+          ),
       ),
     );
   }
