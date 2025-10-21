@@ -15,7 +15,7 @@ class ControlBookmarkButton extends ConsumerWidget {
         if (result == 'edit') {
           showSaveDialog(context, ref, bookmark: bookmark);
         } else if (result == 'delete') {
-          //TODO:削除画面を表示
+          showDeleteDialog(context, ref, bookmark: bookmark!);
         }
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
