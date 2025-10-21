@@ -46,11 +46,18 @@ class BookmarkRepository {
 
   //データの削除
   Future<int> deleteBookmark(int id) async {
-    return await _database.delete(
-      _tableName,
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    return await _database.delete(_tableName, where: 'id = ?', whereArgs: [id]);
   }
-  
+
+  //データの更新
+  Future<int> updateBookmark(Bookmark bookmark) async {
+    final Map<String, dynamic> values = bookmark.toMap();
+
+    return await _database.update(
+      _tableName, 
+      values, 
+      where: 'id = ?',
+      whereArgs: [bookmark.id]
+      );
+  }
 }
