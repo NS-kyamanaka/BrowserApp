@@ -1,3 +1,4 @@
+import 'package:browser_app/widgets/control_bookmark_button.dart';
 import 'package:browser_app/widgets/favicon.dart';
 import 'package:flutter/material.dart';
 import '../data/models/bookmark.dart';
@@ -32,6 +33,7 @@ class BookmarkTile extends StatelessWidget {
           maxLines: 2,
           overflow:TextOverflow.ellipsis,
           ),
+        trailing: ControlBookmarkButton(bookmark:bookmark),
       ),
     );
   }

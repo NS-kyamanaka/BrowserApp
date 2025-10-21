@@ -45,7 +45,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
             builder: (context, ref, child) {
               return TextButton(
                 onPressed: () {
-                  showRegistDialog(context, ref, initialUrl: _currentUrl);
+                  showSaveDialog(context, ref, initialUrl: _currentUrl);
                 },
                 child: const Text('ブックマークに追加'),
               );

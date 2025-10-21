@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:browser_app/data/models/bookmark.dart';
 
 class RegistDialog extends StatefulWidget {
-  final Future<void> Function(Bookmark bookmark) onRegistApp;
+  final Future<void> Function(Bookmark bookmark) onSave;
   final String? initialUrl;
+  final Bookmark? initialBookmark;
 
-  const RegistDialog({super.key, required this.onRegistApp, this.initialUrl});
+  const RegistDialog({
+    super.key,
+    required this.onSave,
+    this.initialUrl,
+    this.initialBookmark,
+  });
 
   @override
   State<RegistDialog> createState() => _RegistDialogState();
@@ -19,7 +25,12 @@ class _RegistDialogState extends State<RegistDialog> {
   @override
   void initState() {
     super.initState();
-    if (widget.initialUrl != null && widget.initialUrl!.isNotEmpty) {
+    if (widget.initialBookmark != null) {
+      //登録済みを編集
+      _nameController.text = widget.initialBookmark!.name;
+      _urlController.text = widget.initialBookmark!.url;
+    } else if (widget.initialUrl != null && widget.initialUrl!.isNotEmpty) {
+      //WebViewからの登録
       _urlController.text = widget.initialUrl!;
     }
   }
@@ -33,6 +44,10 @@ class _RegistDialogState extends State<RegistDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final isEditing = widget.initialBookmark != null;
+    final titleText = isEditing ? 'ブックマーク編集' : 'ブックマーク登録';
+    final buttonText = isEditing ? '保存' : '登録';
+
     final List<Widget> actions = [
       TextButton(
         onPressed: Navigator.of(context).pop,
@@ -44,22 +59,23 @@ class _RegistDialogState extends State<RegistDialog> {
             return;
           }
           final newBookmark = Bookmark(
-            id: null,
+            id: isEditing ?  widget.initialBookmark!.id : null,
             name: _nameController.text,
             url: _urlController.text,
-            date: DateTime.now(),
+            date: isEditing ? widget.initialBookmark!.date : DateTime.now(),
           );
-          await widget.onRegistApp(newBookmark);
+
+          await widget.onSave(newBookmark);
           if (context.mounted) {
             Navigator.of(context).pop();
           }
         },
-        child: const Text('登録'),
+        child: Text(buttonText),
       ),
     ];
 
     return AlertDialog(
-      title: const Text('ブックマーク登録'),
+      title:  Text(titleText),
       content: Form(
         key: _formKey,
         child: Column(

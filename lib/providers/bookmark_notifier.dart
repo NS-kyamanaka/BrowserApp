@@ -33,8 +33,13 @@ class BookmarkNotifier extends StateNotifier<List<Bookmark>> {
     state = state.where((bookmark) => bookmark.id != id).toList();
   }
 
-  //TODO:Bookmarkの編集メソッド
-  
+  Future<void> editBookmark(Bookmark bookmark) async {
+    await _repository.updateBookmark(bookmark);
+    
+    state = state.map((b) {
+      return b.id == bookmark.id ? bookmark : b;
+    }).toList();
+  }
 }
 
 final bookmarkListProvider =
