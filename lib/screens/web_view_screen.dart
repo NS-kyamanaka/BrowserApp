@@ -90,7 +90,12 @@ class BottomBar extends StatelessWidget {
             icon: const Icon(Icons.refresh),
             onPressed: () => controller.reload(),
           ),
-          TextButton(onPressed: null, child: Text("終了")),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("終了"),
+          ),
         ],
       ),
     );
