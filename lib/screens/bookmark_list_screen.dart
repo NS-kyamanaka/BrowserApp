@@ -115,7 +115,7 @@ class BookmarkListScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => showRegistDialog(context, ref),
+        onPressed: () => showSaveDialog(context, ref),
         child: const Icon(Icons.add),
       ),
     );

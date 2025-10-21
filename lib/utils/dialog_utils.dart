@@ -4,19 +4,30 @@ import '../data/models/bookmark.dart';
 import '../providers/bookmark_notifier.dart';
 import '../widgets/register_dialog.dart';
 
-void showRegistDialog(BuildContext context, WidgetRef ref,{String? initialUrl}) {
-    final notifier = ref.read(bookmarkListProvider.notifier);
+void showSaveDialog(
+  BuildContext context,
+  WidgetRef ref, {
+  Bookmark? bookmark,
+  String? initialUrl,
+}) {
+  final notifier = ref.read(bookmarkListProvider.notifier);
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return RegistDialog(
-          initialUrl: initialUrl,
-          onRegistApp: (Bookmark bookmark) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return RegistDialog(
+        initialBookmark: bookmark,
+        initialUrl: initialUrl,
+
+        onSave: (Bookmark bookmark) async {
+          if (bookmark.id == null) {
             await notifier.addBookmark(bookmark);
-          },
-        );
-      },
-    );
-  }
+          } else {
+            await notifier.editBookmark(bookmark);
+          }
+        },
+      );
+    },
+  );
+}
