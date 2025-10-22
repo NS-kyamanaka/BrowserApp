@@ -22,7 +22,7 @@ class BookmarkListScreen extends ConsumerWidget {
         final viewStyleNotifier = ref.read(viewStyleProvider.notifier);
 
         return PopupMenuButton<String>(
-          icon: const Icon(Icons.sort),
+          icon: const Icon(Icons.settings),
           onSelected: (String result) {
             if (result == 'desc' || result == 'asc') {
               final newDirection = result == 'desc'
@@ -146,8 +146,8 @@ class BookmarkListScreen extends ConsumerWidget {
           const SearchInputField(),
           Expanded(
             child: currentViewStyle == ViewStyle.list
-                ? _listSample(context, bookmarks, ref)
-                : _gridSample(context, bookmarks, ref),
+                ? _listBookmarks(context, bookmarks, ref)
+                : _gridBookmarks(context, bookmarks, ref),
           ),
         ],
       ),
@@ -158,7 +158,7 @@ class BookmarkListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _listSample(
+  Widget _listBookmarks(
     BuildContext context,
     List<Bookmark> bookmarks,
     WidgetRef ref,
@@ -193,7 +193,7 @@ class BookmarkListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _gridSample(
+  Widget _gridBookmarks(
     BuildContext context,
     List<Bookmark> bookmarks,
     WidgetRef ref,
