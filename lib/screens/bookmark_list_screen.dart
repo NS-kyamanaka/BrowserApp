@@ -22,7 +22,7 @@ class BookmarkListScreen extends ConsumerWidget {
         final viewStyleNotifier = ref.read(viewStyleProvider.notifier);
 
         return PopupMenuButton<String>(
-          icon: const Icon(Icons.import_export),
+          icon: const Icon(Icons.settings),
           onSelected: (String result) {
             if (result == 'desc' || result == 'asc') {
               final newDirection = result == 'desc'
