@@ -70,31 +70,57 @@ class BottomBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
+          TextButton(
             onPressed: () async {
               if (await controller.canGoBack()) {
                 controller.goBack();
               }
             },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.arrow_back),
+                const SizedBox(height: 4),
+                const Text('戻る', style: TextStyle(fontSize: 12)),
+              ],
+            ),
           ),
-          IconButton(
-            icon: const Icon(Icons.arrow_forward),
+          TextButton(
             onPressed: () async {
               if (await controller.canGoForward()) {
                 controller.goForward();
               }
             },
-          ),
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => controller.reload(),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.arrow_forward),
+                const SizedBox(height: 4),
+                const Text('進む', style: TextStyle(fontSize: 12)),
+              ],
+            ),
           ),
           TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text("終了"),
+            onPressed: () => controller.reload(),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.refresh),
+                const SizedBox(height: 4),
+                const Text('更新', style: TextStyle(fontSize: 12)),
+              ],
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.close),
+                const SizedBox(height: 4),
+                const Text('終了', style: TextStyle(fontSize: 12),),
+              ],
+            ),
           ),
         ],
       ),
