@@ -15,6 +15,23 @@ class WebViewScreen extends StatefulWidget {
 class _WebViewScreenState extends State<WebViewScreen> {
   late final WebViewController _controller;
   String _currentUrl = '';
+  final _searchController = TextEditingController();
+
+  void _googleSearchSubmit(String text) {
+    if (text.isEmpty) {
+      return;
+    }
+
+    final encodededQuery = Uri.encodeComponent(text);
+    String link = 'https://www.google.com/search?q=$encodededQuery';
+    Bookmark temp = Bookmark.create(name: text, url: link);
+
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => WebViewScreen(bookmark: temp)),
+    );
+  }
 
   @override
   void initState() {
@@ -39,7 +56,22 @@ class _WebViewScreenState extends State<WebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.bookmark.name),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+          child: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Google検索',
+              prefixIcon: const Icon(Icons.search),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 0.0),
+            ),
+            onSubmitted: _googleSearchSubmit,
+          ),
+        ),
+        automaticallyImplyLeading: false,
         actions: [
           Consumer(
             builder: (context, ref, child) {
@@ -118,7 +150,7 @@ class BottomBar extends StatelessWidget {
               children: [
                 const Icon(Icons.close),
                 const SizedBox(height: 4),
-                const Text('終了', style: TextStyle(fontSize: 12),),
+                const Text('終了', style: TextStyle(fontSize: 12)),
               ],
             ),
           ),
