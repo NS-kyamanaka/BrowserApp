@@ -13,8 +13,8 @@ class BookmarkRepository {
     _database = await openDatabase(
       path,
       version: 1,
-      onCreate: (db, version) {
-        return db.execute('''
+      onCreate: (db, version) async {
+        await db.execute('''
           CREATE TABLE $_tableName(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
@@ -22,6 +22,16 @@ class BookmarkRepository {
             date TEXT NOT NULL
           )
           ''');
+        //初回はGoogleを登録しておく
+        final google = Bookmark.create(
+          name: 'Google',
+          url: 'https://www.google.com/',
+        );
+        await db.insert(
+          _tableName,
+          google.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
       },
     );
   }
@@ -54,10 +64,10 @@ class BookmarkRepository {
     final Map<String, dynamic> values = bookmark.toMap();
 
     return await _database.update(
-      _tableName, 
-      values, 
+      _tableName,
+      values,
       where: 'id = ?',
-      whereArgs: [bookmark.id]
-      );
+      whereArgs: [bookmark.id],
+    );
   }
 }

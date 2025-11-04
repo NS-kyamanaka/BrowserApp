@@ -11,7 +11,6 @@ class BookmarkNotifier extends StateNotifier<List<Bookmark>> {
 
   BookmarkNotifier(this._repository) : super([]);
 
-  //TODO:登録がなければ強制でGoogleを追加しておくとかあり
   Future<void> loadBookmarks() async {
     if (_loaded) return;
     _loaded = true;
@@ -53,7 +52,9 @@ class BookmarkNotifier extends StateNotifier<List<Bookmark>> {
 final bookmarkListProvider =
     StateNotifierProvider<BookmarkNotifier, List<Bookmark>>((ref) {
       final repository = ref.watch(bookmarkRepositoryProvider);
-      return BookmarkNotifier(repository);
+      final notifier = BookmarkNotifier(repository);
+      notifier.loadBookmarks();
+      return notifier;
     });
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
