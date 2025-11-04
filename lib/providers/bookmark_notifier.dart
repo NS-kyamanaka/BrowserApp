@@ -7,14 +7,20 @@ final bookmarkRepositoryProvider = Provider((ref) => BookmarkRepository());
 
 class BookmarkNotifier extends StateNotifier<List<Bookmark>> {
   final BookmarkRepository _repository;
+  bool _loaded = false;
 
   BookmarkNotifier(this._repository) : super([]);
 
-  //TODO:登録がなければ強制でGoogleを追加しておくとかあり
   Future<void> loadBookmarks() async {
-    await _repository.open();
-    final bookmarks = await _repository.getBookmarks();
-    state = bookmarks;
+    if (_loaded) return;
+    _loaded = true;
+    try {
+      await _repository.open();
+      state = await _repository.getBookmarks();
+    } catch (e) {
+      _loaded = false;
+      rethrow;
+    }
   }
 
   Future<void> addBookmark(Bookmark bookmark) async {
@@ -36,7 +42,7 @@ class BookmarkNotifier extends StateNotifier<List<Bookmark>> {
 
   Future<void> editBookmark(Bookmark bookmark) async {
     await _repository.updateBookmark(bookmark);
-    
+
     state = state.map((b) {
       return b.id == bookmark.id ? bookmark : b;
     }).toList();
@@ -46,7 +52,9 @@ class BookmarkNotifier extends StateNotifier<List<Bookmark>> {
 final bookmarkListProvider =
     StateNotifierProvider<BookmarkNotifier, List<Bookmark>>((ref) {
       final repository = ref.watch(bookmarkRepositoryProvider);
-      return BookmarkNotifier(repository);
+      final notifier = BookmarkNotifier(repository);
+      notifier.loadBookmarks();
+      return notifier;
     });
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
