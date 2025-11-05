@@ -22,12 +22,11 @@ class _WebViewScreenState extends State<WebViewScreen> {
       return;
     }
 
-    final encodededQuery = Uri.encodeComponent(text);
-    String link = 'https://www.google.com/search?q=$encodededQuery';
+    final encodedQuery = Uri.encodeComponent(text);
+    String link = 'https://www.google.com/search?q=$encodedQuery';
     Bookmark temp = Bookmark.create(name: text, url: link);
 
-    Navigator.pop(context);
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => WebViewScreen(bookmark: temp)),
     );
@@ -50,6 +49,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
       )
       ..loadRequest(Uri.parse(widget.bookmark.url));
     _currentUrl = widget.bookmark.url;
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -93,6 +98,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
 class BottomBar extends StatelessWidget {
   final WebViewController controller;
+
   const BottomBar({super.key, required this.controller});
 
   @override
