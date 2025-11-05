@@ -79,7 +79,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 onPressed: () {
                   showSaveDialog(context, ref, initialUrl: _currentUrl);
                 },
-                child: const Text('ブックマークに追加'),
+                child: const Text('ブックマークに登録'),
               );
             },
           ),
