@@ -20,7 +20,6 @@ void showSaveDialog(
       return RegistDialog(
         initialBookmark: bookmark,
         initialUrl: initialUrl,
-
         onSave: (Bookmark bookmark) async {
           if (bookmark.id == null) {
             await notifier.addBookmark(bookmark);

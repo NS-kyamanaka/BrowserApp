@@ -39,7 +39,7 @@ class BookmarkRepository {
   //データの取得(SELECT)
   Future<List<Bookmark>> getBookmarks() async {
     final List<Map<String, dynamic>> maps = await _database.query(_tableName);
-
+    
     return List.generate(maps.length, (i) {
       return Bookmark.fromMap(maps[i]);
     });

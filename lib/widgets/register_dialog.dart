@@ -116,7 +116,6 @@ class _RegistDialogState extends State<RegistDialog> {
                 }
 
                 final uri = Uri.tryParse(value);
-
                 if (uri == null || !uri.hasScheme || uri.host.isEmpty) {
                   return '有効なURL形式ではありません。';
                 }

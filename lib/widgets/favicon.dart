@@ -28,8 +28,7 @@ class Favicon extends ConsumerWidget {
           }
           return Icon(Icons.link, size: size);
         },
-        loading: () =>
-            const Center(child: CircularProgressIndicator(strokeWidth: 1.5)),
+        loading: () => const Center(child: CircularProgressIndicator(strokeWidth: 1.5)),
         error: (err, stack) => Icon(Icons.error, size: size),
       ),
     );

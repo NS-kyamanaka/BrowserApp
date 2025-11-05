@@ -93,7 +93,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
 class BottomBar extends StatelessWidget {
   final WebViewController controller;
-
   const BottomBar({super.key, required this.controller});
 
   @override

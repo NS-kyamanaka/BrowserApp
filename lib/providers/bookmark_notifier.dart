@@ -36,13 +36,11 @@ class BookmarkNotifier extends StateNotifier<List<Bookmark>> {
 
   Future<void> removeBookmark(int id) async {
     await _repository.deleteBookmark(id);
-
     state = state.where((bookmark) => bookmark.id != id).toList();
   }
 
   Future<void> editBookmark(Bookmark bookmark) async {
     await _repository.updateBookmark(bookmark);
-
     state = state.map((b) {
       return b.id == bookmark.id ? bookmark : b;
     }).toList();
@@ -69,7 +67,7 @@ final filteredBookmarkListProvider = Provider<List<Bookmark>>((ref) {
     return allBookmarks.where((bookmark) {
       final name = bookmark.name.toLowerCase();
       final url = bookmark.url.toLowerCase();
-
+      
       return name.contains(query) || url.contains(query);
     }).toList();
   }
