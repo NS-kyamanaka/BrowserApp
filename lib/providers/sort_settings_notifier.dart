@@ -12,7 +12,6 @@ final sortDirectionProvider = StateProvider<SortDirection>(
 final sortedAndFilteredBookmarkListProvider = Provider<List<Bookmark>>((ref) {
   final filteredList = ref.watch(filteredBookmarkListProvider);
   final direction = ref.watch(sortDirectionProvider);
-
   final sortedList = List<Bookmark>.from(filteredList);
 
   if (direction == SortDirection.desc) {

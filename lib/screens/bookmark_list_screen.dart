@@ -8,127 +8,10 @@ import 'package:browser_app/widgets/bookmark_tile.dart';
 import 'package:browser_app/data/models/bookmark.dart';
 import 'package:browser_app/widgets/search_input_field.dart';
 import 'package:browser_app/utils/dialog_utils.dart';
+import 'package:browser_app/widgets/show_options.dart';
 
 class BookmarkListScreen extends ConsumerWidget {
   const BookmarkListScreen({super.key});
-
-  Widget _buildSortButton(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, child) {
-        final currentDirection = ref.watch(sortDirectionProvider);
-        final currentViewStyle = ref.watch(viewStyleProvider);
-
-        final sortDirectionNotifier = ref.read(sortDirectionProvider.notifier);
-        final viewStyleNotifier = ref.read(viewStyleProvider.notifier);
-
-        return PopupMenuButton<String>(
-          icon: const Icon(Icons.settings),
-          onSelected: (String result) {
-            if (result == 'desc' || result == 'asc') {
-              final newDirection = result == 'desc'
-                  ? SortDirection.desc
-                  : SortDirection.asc;
-              sortDirectionNotifier.state = newDirection;
-            } else if (result == 'list' || result == 'grid') {
-              final newStyle = result == 'list'
-                  ? ViewStyle.list
-                  : ViewStyle.grid;
-              viewStyleNotifier.state = newStyle;
-            }
-          },
-          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
-              enabled: false,
-              child: Text(
-                '登録日時',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black54,
-                ),
-              ),
-            ),
-            const PopupMenuDivider(),
-            PopupMenuItem<String>(
-              value: 'desc',
-              child: Row(
-                children: [
-                  Visibility(
-                    visible: currentDirection == SortDirection.desc,
-                    maintainSize: true,
-                    maintainAnimation: true,
-                    maintainState: true,
-                    child: const Icon(Icons.check, size: 18),
-                  ),
-                  const SizedBox(width: 8),
-                  const Text('降順（新しい順）'),
-                ],
-              ),
-            ),
-            PopupMenuItem<String>(
-              value: 'asc',
-              child: Row(
-                children: [
-                  Visibility(
-                    visible: currentDirection == SortDirection.asc,
-                    maintainSize: true,
-                    maintainAnimation: true,
-                    maintainState: true,
-                    child: const Icon(Icons.check, size: 18),
-                  ),
-                  const SizedBox(width: 8),
-                  const Text('昇順（古い順）'),
-                ],
-              ),
-            ),
-            const PopupMenuDivider(),
-            const PopupMenuItem<String>(
-              enabled: false,
-              child: Text(
-                '表示形式',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black54,
-                ),
-              ),
-            ),
-            const PopupMenuDivider(),
-            PopupMenuItem<String>(
-              value: 'list',
-              child: Row(
-                children: [
-                  Visibility(
-                    visible: currentViewStyle == ViewStyle.list,
-                    maintainSize: true,
-                    maintainAnimation: true,
-                    maintainState: true,
-                    child: const Icon(Icons.check, size: 18),
-                  ),
-                  const SizedBox(width: 8),
-                  const Text('リスト表示'),
-                ],
-              ),
-            ),
-            PopupMenuItem<String>(
-              value: 'grid',
-              child: Row(
-                children: [
-                  Visibility(
-                    visible: currentViewStyle == ViewStyle.grid,
-                    maintainSize: true,
-                    maintainAnimation: true,
-                    maintainState: true,
-                    child: const Icon(Icons.check, size: 18),
-                  ),
-                  const SizedBox(width: 8),
-                  const Text('グリッド表示'),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -139,7 +22,7 @@ class BookmarkListScreen extends ConsumerWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('ブックマーク一覧'),
-        actions: [_buildSortButton(context)],
+        actions: [ShowOptions()],
       ),
       body: Column(
         children: [
@@ -147,7 +30,7 @@ class BookmarkListScreen extends ConsumerWidget {
           Expanded(
             child: currentViewStyle == ViewStyle.list
                 ? _listBookmarks(context, bookmarks, ref)
-                : _gridBookmarks(context, bookmarks, ref),
+                : _gridBookmarks(context, bookmarks),
           ),
         ],
       ),
@@ -158,11 +41,9 @@ class BookmarkListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _listBookmarks(
-    BuildContext context,
-    List<Bookmark> bookmarks,
-    WidgetRef ref,
-  ) {
+  Widget _listBookmarks(BuildContext context, List<Bookmark> bookmarks, WidgetRef ref){
+    final notifier = ref.read(bookmarkListProvider.notifier);
+
     return Container(
       decoration: BoxDecoration(
         border: Border(top: BorderSide(color: Colors.grey)),
@@ -176,9 +57,7 @@ class BookmarkListScreen extends ConsumerWidget {
             key: ValueKey(currentBookmark.id),
             direction: DismissDirection.endToStart,
             onDismissed: (direction) {
-              ref
-                  .read(bookmarkListProvider.notifier)
-                  .removeBookmark(currentBookmark.id!);
+              notifier.removeBookmark(currentBookmark.id!);
             },
             background: Container(
               padding: EdgeInsets.only(right: 10),
@@ -193,11 +72,7 @@ class BookmarkListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _gridBookmarks(
-    BuildContext context,
-    List<Bookmark> bookmarks,
-    WidgetRef ref,
-  ) {
+  Widget _gridBookmarks(BuildContext context, List<Bookmark> bookmarks) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,

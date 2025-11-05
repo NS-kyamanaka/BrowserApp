@@ -79,7 +79,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 onPressed: () {
                   showSaveDialog(context, ref, initialUrl: _currentUrl);
                 },
-                child: const Text('ブックマークに追加'),
+                child: const Text('ブックマークに登録'),
               );
             },
           ),
@@ -93,7 +93,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
 class BottomBar extends StatelessWidget {
   final WebViewController controller;
-
   const BottomBar({super.key, required this.controller});
 
   @override

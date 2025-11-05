@@ -14,7 +14,6 @@ class BookmarkGridItem extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey, width: 1.0),
       ),
-
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -34,7 +33,6 @@ class BookmarkGridItem extends StatelessWidget {
                 children: [
                   Center(child: Favicon(url: bookmark.url)),
                   const SizedBox(height: 8),
-
                   Text(
                     bookmark.name,
                     style: const TextStyle(fontWeight: FontWeight.bold),
@@ -42,7 +40,6 @@ class BookmarkGridItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-
                   Text(
                     bookmark.url,
                     style: const TextStyle(fontSize: 10, color: Colors.grey),
