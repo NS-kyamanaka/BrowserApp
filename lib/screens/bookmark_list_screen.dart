@@ -41,11 +41,9 @@ class BookmarkListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _listBookmarks(
-    BuildContext context,
-    List<Bookmark> bookmarks,
-    WidgetRef ref,
-  ) {
+  Widget _listBookmarks(BuildContext context, List<Bookmark> bookmarks, WidgetRef ref){
+    final notifier = ref.read(bookmarkListProvider.notifier);
+
     return Container(
       decoration: BoxDecoration(
         border: Border(top: BorderSide(color: Colors.grey)),
@@ -59,9 +57,7 @@ class BookmarkListScreen extends ConsumerWidget {
             key: ValueKey(currentBookmark.id),
             direction: DismissDirection.endToStart,
             onDismissed: (direction) {
-              ref
-                  .read(bookmarkListProvider.notifier)
-                  .removeBookmark(currentBookmark.id!);
+              notifier.removeBookmark(currentBookmark.id!);
             },
             background: Container(
               padding: EdgeInsets.only(right: 10),
@@ -76,10 +72,7 @@ class BookmarkListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _gridBookmarks(
-    BuildContext context,
-    List<Bookmark> bookmarks,
-  ) {
+  Widget _gridBookmarks(BuildContext context, List<Bookmark> bookmarks) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
