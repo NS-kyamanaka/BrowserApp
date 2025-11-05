@@ -23,7 +23,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     }
 
     final encodedQuery = Uri.encodeComponent(text);
-    String link = 'https://www.google.com/search?q=$encodedQuery';
+    final String link = 'https://www.google.com/search?q=$encodedQuery';
     Bookmark temp = Bookmark.create(name: text, url: link);
 
     Navigator.pushReplacement(
@@ -98,8 +98,25 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
 class BottomBar extends StatelessWidget {
   final WebViewController controller;
-
   const BottomBar({super.key, required this.controller});
+
+  Widget _operateButton({
+    required Icon icon,
+    required String label,
+    required VoidCallback onPressed,
+  }) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          icon,
+          const SizedBox(height: 4),
+          Text(label, style: const TextStyle(fontSize: 12)),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,57 +124,33 @@ class BottomBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          TextButton(
+          _operateButton(
+            icon: const Icon(Icons.arrow_back),
+            label: '戻る',
             onPressed: () async {
               if (await controller.canGoBack()) {
                 controller.goBack();
               }
             },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.arrow_back),
-                const SizedBox(height: 4),
-                const Text('戻る', style: TextStyle(fontSize: 12)),
-              ],
-            ),
           ),
-          TextButton(
+          _operateButton(
+            icon: const Icon(Icons.arrow_forward),
+            label: '進む',
             onPressed: () async {
               if (await controller.canGoForward()) {
                 controller.goForward();
               }
             },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.arrow_forward),
-                const SizedBox(height: 4),
-                const Text('進む', style: TextStyle(fontSize: 12)),
-              ],
-            ),
           ),
-          TextButton(
+          _operateButton(
+            icon: const Icon(Icons.refresh),
+            label: '更新',
             onPressed: () => controller.reload(),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.refresh),
-                const SizedBox(height: 4),
-                const Text('更新', style: TextStyle(fontSize: 12)),
-              ],
-            ),
           ),
-          TextButton(
+          _operateButton(
+            icon: const Icon(Icons.close),
+            label: '終了',
             onPressed: () => Navigator.pop(context),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.close),
-                const SizedBox(height: 4),
-                const Text('終了', style: TextStyle(fontSize: 12)),
-              ],
-            ),
           ),
         ],
       ),
